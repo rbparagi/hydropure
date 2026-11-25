@@ -361,12 +361,12 @@ footer{position:relative;padding-block:70px 40px;background:var(--bg2)}
 </section>
 
 <section class="sec wrap" id="cost" style="padding-top:0"><div class="cost rv">
-  <div><h2>The honest cost</h2><p>It's a big purchase, so here is the whole sum: the machine plus a new filter every six months, shared over the years you use it.</p>
+  <div><h2>The honest cost</h2><p>It's a big purchase, so here is the price of the machine, shared over the years you use it. Filters and running costs are extra.</p>
     <div class="seg" role="group" aria-label="Machine" id="cm"><button data-k="0" aria-pressed="true">K8</button><button data-k="1" aria-pressed="false">SD501DX</button><button data-k="2" aria-pressed="false">JRIV</button></div>
-    <label class="yr"><span>Used for <b id="cy">10 years</b></span><input id="cyr" type="range" min="3" max="15" value="10"></label>
-    <label class="yr"><span>People at home <b id="cp">4</b></span><input id="cpp" type="range" min="1" max="8" value="4"></label></div>
-  <div class="csum"><div class="big"><b id="cday"></b><span>a day for the home</span></div><p id="cper"></p><ul><li><span>Machine</span><b id="c1"></b></li><li><span>Filters</span><b id="c2"></b></li><li class="t"><span>Total</span><b id="c3"></b></li></ul>
-    <p class="small">Filter prices from Enagic India's store: K8 ₹9,000, JRIV ₹8,000. The SD501DX isn't listed separately, so ₹8,000 is assumed. Six months is Enagic USA's advice for the K8, applied to all three. Electricity, delivery, cleaning kits and repairs are not included. Enagic India's order form offers 10 and 20 month instalments.</p></div>
+    <label class="yr"><span>Used for <b id="cy">15 years</b></span><input id="cyr" type="range" min="3" max="20" value="15"></label>
+    <label class="yr"><span>People at home <b id="cp">5</b></span><input id="cpp" type="range" min="1" max="8" value="5"></label></div>
+  <div class="csum"><div class="big"><b id="cday"></b><span>a day for the home</span></div><p id="cper"></p><ul><li><span>Machine</span><b id="c1"></b></li></ul>
+    <p class="small">Filters, electricity, delivery, cleaning kits and repairs are not included. Enagic India's order form offers 10 and 20 month instalments.</p></div>
 </div></section>
 
 <section class="sec" id="faq" style="background:var(--bg2)"><div class="wrap"><div class="head rv"><h2>The questions we'd ask too</h2></div><div class="faq rv">
@@ -4742,8 +4742,8 @@ $$('.pick button').forEach(b => b.addEventListener('click', () => { const p = b.
 
 /* v2: honest cost */
 {
-  const M = [[380000, 9000], [340000, 8000], [240000, 8000]], bs = $$('#cm button'), y = $('#cyr'), n = $('#cpp'), f = v => '₹' + Math.round(v).toLocaleString('en-IN'); let k = 0, shown = 0, raf2;
-  const go = () => { const Y = +y.value, P = +n.value, m = M[k][0], fl = M[k][1] * 2 * Y, tot = m + fl, day = tot / (Y * 365); $('#cy').textContent = Y + ' years'; $('#cp').textContent = P; $('#c1').textContent = f(m); $('#c2').textContent = f(fl); $('#c3').textContent = f(tot); $('#cper').textContent = P > 1 ? 'About ' + f(day / P) + ' a day for each of ' + P + ' people.' : 'All of it for one person.'; const a = shown, s = performance.now(); cancelAnimationFrame(raf2); if (RM || !a) { shown = day; $('#cday').textContent = f(day); return; } (function t(q) { const e = clamp((q - s) / 450); shown = mix(a, day, 1 - Math.pow(1 - e, 3)); $('#cday').textContent = f(shown); if (e < 1) raf2 = requestAnimationFrame(t); })(s); };
+  const M = [380000, 340000, 240000], bs = $$('#cm button'), y = $('#cyr'), n = $('#cpp'), f = v => '₹' + Math.round(v).toLocaleString('en-IN'); let k = 0, shown = 0, raf2;
+  const go = () => { const Y = +y.value, P = +n.value, m = M[k], day = m / (Y * 365); $('#cy').textContent = Y + ' years'; $('#cp').textContent = P; $('#c1').textContent = f(m); $('#cper').textContent = P > 1 ? 'About ' + f(day / P) + ' a day for each of ' + P + ' people.' : 'All of it for one person.'; const a = shown, s = performance.now(); cancelAnimationFrame(raf2); if (RM || !a) { shown = day; $('#cday').textContent = f(day); return; } (function t(q) { const e = clamp((q - s) / 450); shown = mix(a, day, 1 - Math.pow(1 - e, 3)); $('#cday').textContent = f(shown); if (e < 1) raf2 = requestAnimationFrame(t); })(s); };
   bs.forEach((b, i) => b.addEventListener('click', () => { k = i; bs.forEach(o => o.setAttribute('aria-pressed', o === b)); go(); })); [y, n].forEach(e => e.addEventListener('input', go)); go();
 }
 
